@@ -173,7 +173,7 @@ class Generator {
     invert(image);
 
     // R/G/B channels are same -> keep only one channel
-    final List<int> oneChannelBytes = [];
+    List<int> oneChannelBytes = [];
     final List<int> buffer = image.getBytes(order: ChannelOrder.rgba);
     for (int i = 0; i < buffer.length; i += 4) {
       oneChannelBytes.add(buffer[i]);
@@ -185,6 +185,9 @@ class Generator {
       final targetWidth = (widthPx + 8) - (widthPx % 8);
       final missingPx = targetWidth - widthPx;
       final extra = Uint8List(missingPx);
+
+      oneChannelBytes = List<int>.filled(heightPx * targetWidth, 0);
+
       for (int i = 0; i < heightPx; i++) {
         final pos =
             (i * widthPx) + i * missingPx; // Corrected position calculation
