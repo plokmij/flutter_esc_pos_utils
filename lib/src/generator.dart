@@ -180,15 +180,26 @@ class Generator {
     }
 
     // Add some empty pixels at the end of each line (to make the width divisible by 8)
+
     if (widthPx % 8 != 0) {
       final targetWidth = (widthPx + 8) - (widthPx % 8);
       final missingPx = targetWidth - widthPx;
       final extra = Uint8List(missingPx);
       for (int i = 0; i < heightPx; i++) {
-        final pos = (i * widthPx + widthPx) + i * missingPx;
+        final pos =
+            (i * widthPx) + i * missingPx; // Corrected position calculation
         oneChannelBytes.insertAll(pos, extra);
       }
     }
+    // if (widthPx % 8 != 0) {
+    //   final targetWidth = (widthPx + 8) - (widthPx % 8);
+    //   final missingPx = targetWidth - widthPx;
+    //   final extra = Uint8List(missingPx);
+    //   for (int i = 0; i < heightPx; i++) {
+    //     final pos = (i * widthPx + widthPx) + i * missingPx;
+    //     oneChannelBytes.insertAll(pos, extra);
+    //   }
+    // }
 
     // Pack bits into bytes
     return _packBitsIntoBytes(oneChannelBytes);
